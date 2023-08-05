@@ -1,0 +1,16 @@
+#!/bin/sh
+
+alias cp="cp -iv"
+alias mv="mv -iv"
+alias rm="rm -v"
+alias mkdir="mkdir -pv"
+
+alias ls="ls -hN --color=auto --group-directories-first"
+alias grep="grep --color=auto"
+alias t="tail -f"
+
+alias ff="firefox"
+alias fff="firejail --x11=xephyr --name=firefox --profile=/etc/firejail/firefox.profile openbox --startup /usr/lib64/firefox/firefox"
+alias vm="virt-manager"
+
+alias ref="shortcuts >/dev/null; source ~/.config/shortcutrc"

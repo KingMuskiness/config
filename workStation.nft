@@ -1,0 +1,52 @@
+#!/sbin/nft -f
+
+flush ruleset
+
+define Guest_Int = enp5s0
+define Host_Int = enp6s0
+define WireGuard_Int = wg0
+
+define SSH_Ports = { 22, 2222 }
+
+table ip filter {
+
+    chain baseChecks {
+
+        ct state {established, related} counter accept comment "Count Accepted Packets"
+        ct state invalid counter drop comment "Count Dropped Packets"
+
+    }
+
+    chain input {
+
+        type filter hook input priority -100; policy drop;
+
+            iif lo accept
+            jump baseChecks
+            ip protocol icmp counter drop comment "Count Accecpted Packets"
+            tcp dport $SSH_Ports counter accept comment "Count Accepted Packets"
+
+        counter comment "Count Dropped Packets"
+        log prefix "nft.dropInput"
+
+    }
+
+    chain forward {
+
+        type filter hook forward priority 0; policy drop;
+
+        counter comment "Count Dropped Packets"
+        log prefix "nft.dropForward"
+
+    }
+
+    chain output {
+
+        type filter hook output priority 100; policy accept;
+
+        counter comment "Count Accepted Packets"
+        log prefix "nft.acceptOutput"
+
+    }
+
+}
