@@ -6,7 +6,7 @@ define eth0_Int = enp5s0
 define eth1_Int = enp6s0
 define WireGuard_Int = wg0
 
-define SSH_Ports = { 22, 2222 }
+define SSH_Ports = 22
 
 table ip filter {
 
